@@ -82,6 +82,8 @@ select {
 
 ul {
 	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 input,
@@ -247,9 +249,9 @@ header {
 }
 
 .allmovies__pagination-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
 
 	li {
 		color: var(--grey);
@@ -262,11 +264,80 @@ header {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-        margin: 0 8px 16px 8px;
+		margin: 0 8px 16px 8px;
 
-        &.active {
-            background: rgba(37, 55, 85, .7);
+		&.active {
+			background: rgba(37, 55, 85, 0.7);
+		}
+	}
+}
+/** DROPDOWN *******************************/
+.allmovies__filter-input-group {
+    display: flex;
+    align-items: center;
+
+	.dropdown__container {
+		position: relative;
+        margin-left: 10px;
+
+		&.order {
+			width: 195px;
+		}
+
+        &.genres,
+        &.year {
+            width: 120px;
         }
+
+		.dropdown__menu {
+			font-family: "roboto regular";
+			font-size: 12px;
+			padding: 10px 20px;
+			border-radius: 14px;
+			background: transparent;
+			border: 1px solid var(--grey);
+			color: var(--grey);
+
+			&::after {
+				content: "";
+				height: 36px;
+				width: 36px;
+				background: url("icons/dropdownarrow.svg") center center
+					no-repeat;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+
+			&.active {
+				border-radius: 14px 14px 0 0;
+				background: #142e5b;
+			}
+		}
+
+		.dropdown__content {
+			font-family: "roboto regular";
+			font-size: 12px;
+			border-radius: 0 0 14px 14px;
+			border: 1px solid var(--grey);
+			color: var(--grey);
+			background: #142e5b;
+			position: absolute;
+			top: 35px;
+			left: 0;
+			width: 100%;
+			z-index: 10;
+			max-height: 250px;
+			overflow-y: auto;
+
+			li {
+				padding: 10px 20px;
+
+				&:not(:last-child) {
+					border-bottom: 1px solid var(--grey);
+				}
+			}
+		}
 	}
 }
 
@@ -341,6 +412,14 @@ header {
 			right: 0;
 		}
 	}
+
+    .allmovies__filter-container {
+        display: flex;
+
+        .dropdown__container.order {
+            margin-right: 50px;
+        }
+    }
 
 	/** CARDS ************************************/
 	.moviescards__container {

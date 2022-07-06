@@ -4,20 +4,17 @@ import { apiKey } from '../Key/Key';
 import { getMovies } from '../GetMovies/GetMovies';
 import paginationPrev from '../../icons/paginationpreviousarrow.svg';
 import paginationNext from '../../icons/paginationnextarrow.svg';
+import Dropdown from '../Dropdown/Dropdown';
 
 
 const AllMovies = () => {
 
-    const [genres, setGenres] = useState([]);
+    const [genres, setGenres] = useState([])
     const [moviesCards, setMoviesCards] = useState([])
     const [currentPagination, setCurrentPagination] = useState(1)
-    const [filter, setFilter] = useState({
-        order: 'desc',
-        triGenre: '',
-        triYear: ''
-    })
-
-    const { order, triGenre, triYear } = filter;
+    const [order, setOrder] = useState('desc')
+    const [triGenre, setTriGenre] = useState('')
+    const [triYear, setTriYear] = useState('')
 
     const handlePagination = e => {
         const paginationNumber = parseInt(e.target.innerText)
@@ -38,18 +35,39 @@ const AllMovies = () => {
 
     const handleGenres = e => {
         console.log('target', e.target.value)
-        setFilter({...filter, triGenre: e.target.value})
+        setTriGenre(e.target.value)
     }
 
     const handleOrder = e => {
-        setFilter({ ...filter, order: e.target.value })
+        setOrder(e.target.value)
     }
+
+    const orderArray = [
+        {
+            name: 'croissant',
+            id: 'asc'
+        },
+        {
+            name: 'décroissant',
+            id: 'desc'
+        }
+    ]
+
+    const yearArray = []
+    for (let i = 2022; i >= 1980; i--){
+        yearArray.push({
+            name: i.toString(),
+            id: i.toString() 
+        })
+    }
+
+    console.log('year', yearArray)
 
     useEffect(() => {
 
         const reloadMovies = () => {
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${'&with_genres=' + triGenre}`;
-
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ?'&year=' + triYear : ''}`;
+            console.log('URL : ', url)
             fetch(url)
                 .then(response => response.json())
                 .then(response => {
@@ -62,9 +80,7 @@ const AllMovies = () => {
         
         reloadMovies();
 
-    }, [currentPagination, filter]);
-
-    console.log('filter', filter)
+    }, [currentPagination, order, triGenre, triYear]);
 
     let htmlPagination = [];
     for (let i = 1; i <= 10; i++) {
@@ -75,28 +91,13 @@ const AllMovies = () => {
         <div className='mf-allmovies'>
             <div className="allmovies__filter-container">
                 <div className="allmovies__filter-input-group">
-                    <label htmlFor="">Trier par : </label>
-                    <div className='allmovies__filter-select-wrapper'>
-                        <select className='allmovies__select' id="allmovies__filter-tri" onChange={handleOrder}>
-                            <option value="">Ordre alphabétique</option>
-                            <option value="asc">Ordre croissant</option>
-                            <option value="desc">Ordre décroissant</option>
-                        </select>
-                    </div>
+                    <div className='mf-text'>Trier par : </div>
+                    <Dropdown classTag={'order'} title={'Popularité'} array={orderArray} fnSetter={setOrder} all={false}/>
                 </div>
                 <div className="allmovies__filter-input-group">
-                    <label htmlFor="allmovies__filter-filtre">Filtrer par :</label>
-                    <div className='allmovies__filter-select-wrapper'>
-                        <select className='allmovies__select' id="allmovies__filter-filtre" onChange={handleGenres}>
-                            <option value="">Genre</option>
-                            {
-                                genres.map(({id, name}) => (
-                                    <option className='allmovies__option' key={id} value={id}>{name}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
-                    <input type="number" min="1900" max="2099" step="1" value="2016" />
+                    <div className='mf-text'>Filtrer par :</div>
+                    <Dropdown classTag={'genres'} title={'Genres'} array={genres} fnSetter={setTriGenre} all={true} />
+                    <Dropdown classTag={'year'} title={'Année'} array={yearArray} fnSetter={setTriYear} all={true} />
                 </div>
             </div>
             <MoviesCards cards={moviesCards} />
