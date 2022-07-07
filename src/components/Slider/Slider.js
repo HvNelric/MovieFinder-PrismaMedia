@@ -12,11 +12,11 @@ const Slider = () => {
     const length = movies.length;
 
     const slideNext = () => {
-        setCurrent(current === length - 1 ? 0 : current + 1);
+        setCurrent(current === length - 3 ? 0 : current + 1);
     }
 
     const slidePrev = () => {
-        setCurrent(current === 0 ? length - 1 : current - 1);
+        setCurrent(current === 0 ? length - 3 : current - 1);
     }
 
     useEffect(() => {
@@ -24,6 +24,9 @@ const Slider = () => {
         getMovies(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=fr-FR&page=1`, setMovies);
 
     }, [])
+
+    console.log('modulo : ', movies.length % 3)
+    console.log('current : ', current)
 
 
     return (

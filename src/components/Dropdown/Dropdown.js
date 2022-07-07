@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 
-const Dropdown = ({ title, array, fnSetter, classTag, all }) => {
+const Dropdown = ({ title, array, fnSetter, classTag, all, stateObj, stateValue }) => {
 
     const dropdownMenu = useRef()
     const [open, setOpen] = useState(false)
@@ -10,13 +10,15 @@ const Dropdown = ({ title, array, fnSetter, classTag, all }) => {
     }
 
     const handleClick = e => {
-        fnSetter(e.target.getAttribute('data-id'))
+        const newStateObj = { ...stateObj }
+        newStateObj[stateValue] = e.target.getAttribute('data-id')
+        fnSetter(newStateObj)
         setOpen(!open);
         dropdownMenu.current.innerHTML = e.target.innerText;
     }
 
     return (
-        <div className={`dropdown__container ${classTag}`}>
+        <div className={`dropdown__container ${classTag}`} tabIndex={0} onBlur={()=> setOpen(false)}>
             <div ref={dropdownMenu} className={`dropdown__menu ${open ? 'active' : ''}`} onClick={openDropdown}>
                 {title}
             </div>
