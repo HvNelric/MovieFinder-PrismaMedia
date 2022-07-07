@@ -18,7 +18,7 @@
 }
 
 body {
-	background: #0d1d38 url("img/backgroundimg.jpg") center 0 no-repeat;
+	background: #0d1d38 url("img/bob-wall.png") center 0 no-repeat;
 	background-size: 100%;
 	font-family: "roboto regular";
 	font-size: 12px;
@@ -92,6 +92,10 @@ button {
 	outline: none;
 }
 
+button {
+    cursor: pointer;
+}
+
 .img-wrapper {
 	border-radius: 14px;
 	overflow: hidden;
@@ -143,6 +147,10 @@ header {
 				color: var(--grey);
 				-webkit-box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
 				box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.1);
+
+                &::placeholder {
+                    color: var(--grey);
+                }
 			}
 
 			button {
@@ -202,6 +210,11 @@ header {
 			justify-content: center;
 			align-items: center;
 			background: rgba(37, 55, 85, 0.7);
+            cursor: pointer;
+
+            &:hover {
+                background: rgba(37, 55, 85, 0.5);
+            }
 
 			img {
 				width: 30%;
@@ -248,6 +261,8 @@ header {
 	}
 }
 
+
+/** PAGINATION ****************************/
 .allmovies__pagination-container {
 	display: flex;
 	justify-content: center;
@@ -265,8 +280,10 @@ header {
 		justify-content: center;
 		align-items: center;
 		margin: 0 8px 16px 8px;
+        cursor: pointer;
 
-		&.active {
+		&.active,
+        &:hover {
 			background: rgba(37, 55, 85, 0.7);
 		}
 	}
@@ -302,6 +319,7 @@ header {
 			background: transparent;
 			border: 1px solid var(--grey);
 			color: var(--grey);
+            cursor: pointer;
 
 			&::after {
 				content: "";
@@ -337,6 +355,7 @@ header {
 
 			li {
 				padding: 10px 20px;
+                cursor: pointer;
 
 				&:not(:last-child) {
 					border-bottom: 1px solid var(--grey);
@@ -418,11 +437,18 @@ header {
 		}
 	}
 
+
     .allmovies__filter-container {
         display: flex;
+    }
 
-        .dropdown__container.order {
-            margin-right: 50px;
+    .allmovies__filter-input-group {
+
+        .dropdown__container {
+
+            &.order {
+                margin-right: 50px;
+            }
         }
     }
 

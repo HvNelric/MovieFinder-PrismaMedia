@@ -77,7 +77,7 @@ const AllMovies = () => {
     // Pagination en dur car l'api génère trop de pages, plus de 37k. 10 pages pour un test est suffisant
     let htmlPagination = [];
     for (let i = 1; i <= 10; i++) {
-        htmlPagination.push(<li className={i === currentPagination ? 'active' : null} key={`li-${i}`} onClick={handlePagination}>{i}</li>);
+        htmlPagination.push(<li className={i === currentPagination ? 'active' : ''} key={`li-${i}`} onClick={handlePagination}>{i}</li>);
     }
     
     return (
