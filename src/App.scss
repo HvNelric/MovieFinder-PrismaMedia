@@ -336,6 +336,11 @@ header {
 				border-radius: 14px 14px 0 0;
 				background: #142e5b;
 			}
+
+            &:hover {
+                color: white;
+                background: #142e5b;
+            }
 		}
 
 		.dropdown__content {
@@ -350,7 +355,7 @@ header {
 			left: 0;
 			width: 100%;
 			z-index: 10;
-			max-height: 250px;
+			max-height: 246px;
 			overflow-y: auto;
 
 			li {
@@ -360,6 +365,10 @@ header {
 				&:not(:last-child) {
 					border-bottom: 1px solid var(--grey);
 				}
+
+                &:hover {
+                    color: white;
+                }
 			}
 		}
 	}
