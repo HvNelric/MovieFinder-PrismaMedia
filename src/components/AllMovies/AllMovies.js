@@ -33,15 +33,7 @@ const AllMovies = () => {
         }
     }
 
-    const handleGenres = e => {
-        console.log('target', e.target.value)
-        setTriGenre(e.target.value)
-    }
-
-    const handleOrder = e => {
-        setOrder(e.target.value)
-    }
-
+    // Tableau filtre popularité en dur
     const orderArray = [
         {
             name: 'croissant',
@@ -53,6 +45,7 @@ const AllMovies = () => {
         }
     ]
 
+   // Tableau tri année en dur
     const yearArray = []
     for (let i = 2022; i >= 1980; i--){
         yearArray.push({
@@ -61,10 +54,9 @@ const AllMovies = () => {
         })
     }
 
-    console.log('year', yearArray)
-
     useEffect(() => {
 
+        // on interroge api et reload les films en fonction des states des filtres/tris
         const reloadMovies = () => {
             const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ?'&year=' + triYear : ''}`;
             console.log('URL : ', url)
@@ -82,6 +74,7 @@ const AllMovies = () => {
 
     }, [currentPagination, order, triGenre, triYear]);
 
+    // Pagination en dur car l'api génère trop de pages, plus de 37k. 10 pages pour un test est suffisant
     let htmlPagination = [];
     for (let i = 1; i <= 10; i++) {
         htmlPagination.push(<li className={i === currentPagination ? 'active' : null} key={`li-${i}`} onClick={handlePagination}>{i}</li>);
