@@ -78,7 +78,7 @@ const AllMovies = () => {
         
         reloadMovies();
 
-    }, [currentPagination, filter]);
+    }, [currentPagination, order, triGenre, triYear]);
 
     // Pagination en dur car l'api génère trop de pages, plus de 37k. 10 pages pour un test est suffisant
     const htmlPagination = [];

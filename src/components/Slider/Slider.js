@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import btnNext from '../../icons/slidernextarrow.svg';
 import btnPrev from '../../icons/sliderpreviousarrow.svg';
 import { getMovies } from '../GetMovies/GetMovies';
