@@ -45,7 +45,7 @@ const AllMovies = () => {
         }
     ]
 
-   // Tableau tri année en dur
+   // Tableau tri année en dur car l'implémentation d'un datepicker prendrait trop de temps.
     const yearArray = []
     for (let i = 2022; i >= 1980; i--){
         yearArray.push({
@@ -59,7 +59,7 @@ const AllMovies = () => {
         // on interroge api et reload les films en fonction des states des filtres/tris
         const reloadMovies = () => {
             const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ?'&year=' + triYear : ''}`;
-            console.log('URL : ', url)
+            //console.log('URL : ', url)
             fetch(url)
                 .then(response => response.json())
                 .then(response => {
