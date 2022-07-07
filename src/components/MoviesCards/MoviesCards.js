@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MoviesCards = ({ cards, fnSet }) => {
+const MoviesCards = ({ cards}) => {
 
     return (
         <div className='moviescards__container'>
