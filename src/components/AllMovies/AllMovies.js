@@ -64,7 +64,7 @@ const AllMovies = () => {
 
         let url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}`
 
-        querySearch !== '' ? url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${querySearch}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}` : console.log('no search')
+        querySearch !== '' ? url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&page=${currentPagination}&query=${querySearch}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}` : console.log('no search')
 
         getMovies(url, setMoviesCards, setPages);
 
