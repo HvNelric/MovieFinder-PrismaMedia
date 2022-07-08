@@ -1,19 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MoviesCards from '../MoviesCards/MoviesCards';
 import { apiKey } from '../Key/Key';
 import { getMovies } from '../GetMovies/GetMovies';
 import paginationPrev from '../../icons/paginationpreviousarrow.svg';
 import paginationNext from '../../icons/paginationnextarrow.svg';
 import Dropdown from '../Dropdown/Dropdown';
+import { SearchContext } from '../SearchContext/SearchContext';
 
 const AllMovies = () => {
 
     const [genres, setGenres] = useState([])
     const [moviesCards, setMoviesCards] = useState([])
     const [currentPagination, setCurrentPagination] = useState(1)
-    // const [order, setOrder] = useState('desc')
-    // const [triGenre, setTriGenre] = useState('')
-    // const [triYear, setTriYear] = useState('')
+    const [pages, setPages] = useState(0)
+
+    const context = useContext(SearchContext)
+    const { search } = context
+    let querySearch = '';
+    search && search !== '' ? querySearch = search.replace(/ /g, '+') : querySearch = '';
 
     const [filter, setFilter] = useState({
         order: 'desc',
@@ -62,27 +66,20 @@ const AllMovies = () => {
 
     useEffect(() => {
 
-        // on interroge api et reload les films en fonction des states des filtres/tris
-        const reloadMovies = () => {
-            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&year=' + triYear : ''}`;
-            //console.log('URL : ', url)
-            fetch(url)
-                .then(response => response.json())
-                .then(response => {
-                    setMoviesCards(response.results);
-                })
-                .catch(error => console.log('Erreur : ', error))
-        }
+        let url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}`
+
+        querySearch !== '' ? url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${querySearch}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}` : console.log('no search')
+
+        getMovies(url, setMoviesCards, setPages);
 
         getMovies(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=fr-FR`, setGenres);
-        
-        reloadMovies();
 
-    }, [currentPagination, order, triGenre, triYear]);
+    }, [currentPagination, order, triGenre, triYear, querySearch]);
 
-    // Pagination en dur car l'api génère trop de pages, plus de 37k. 10 pages pour un test est suffisant
+
+    // Pagination array
     const htmlPagination = [];
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= pages; i++) {
         htmlPagination.push(<li className={i === currentPagination ? 'active' : ''} key={`li-${i}`} onClick={handlePagination}>{i}</li>);
     }
     
@@ -103,15 +100,19 @@ const AllMovies = () => {
                 </div>
                 <div className="allmovies__filter-input-group">
                     <div className='mf-text'>Filtrer par :</div>
-                    <Dropdown
-                        classTag={'genres'}
-                        title={'Genres'}
-                        array={genres}
-                        fnSetter={setFilter}
-                        stateObj={filter}
-                        stateValue={'triGenre'}
-                        all={true}
-                    />
+                    {
+                        querySearch === '' &&
+                        <Dropdown
+                            classTag={'genres'}
+                            title={'Genres'}
+                            array={genres}
+                            fnSetter={setFilter}
+                            stateObj={filter}
+                            stateValue={'triGenre'}
+                            all={true}
+                        />
+                    }
+                    
                     <Dropdown
                         classTag={'year'}
                         title={'Année'}
