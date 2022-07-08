@@ -25,9 +25,6 @@ const Slider = () => {
 
     }, [])
 
-    console.log('modulo : ', movies.length % 3)
-    console.log('current : ', current)
-
 
     return (
         <div className='mf-slider'>

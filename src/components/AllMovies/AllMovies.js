@@ -32,15 +32,11 @@ const AllMovies = () => {
     }
 
     const handlePrev = () => {
-        if (currentPagination !== 1) {
-           setCurrentPagination(c => c - 1)
-       }
+        setCurrentPagination(currentPagination !== 1 ? c => c - 1 : pages)
     }
 
     const handleNext = () => {
-        if (currentPagination !== 10) {
-            setCurrentPagination(c => c + 1)
-        }
+        setCurrentPagination(currentPagination !== pages ? c => c + 1 : 1)
     }
 
     // Tableau filtre popularité en dur
