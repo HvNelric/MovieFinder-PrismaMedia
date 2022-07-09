@@ -11,7 +11,8 @@ const Header = () => {
     
     const handleSubmit = e => {
         e.preventDefault();
-        setSearch(searchRef.current.value)
+        const queryWords = searchRef.current.value.replace(/ /g, '+') 
+        setSearch(queryWords)
     }
 
     return (

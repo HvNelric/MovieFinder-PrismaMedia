@@ -16,8 +16,6 @@ const AllMovies = () => {
 
     const context = useContext(SearchContext)
     const { search } = context
-    let querySearch = '';
-    search && search !== '' ? querySearch = search.replace(/ /g, '+') : querySearch = '';
 
     const [filter, setFilter] = useState({
         order: 'desc',
@@ -64,13 +62,13 @@ const AllMovies = () => {
 
         let url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${currentPagination}${'&sort_by=popularity.' + order}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}`
 
-        querySearch !== '' ? url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&page=${currentPagination}&query=${querySearch}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}` : console.log('no search')
+        search !== '' ? url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&page=${currentPagination}&query=${search}${triGenre !== '' ? '&with_genres=' + triGenre : ''}${triYear !== '' ? '&primary_release_year=' + triYear : ''}` : console.log('no search')
 
         getMovies(url, setMoviesCards, setPages);
 
         getMovies(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=fr-FR`, setGenres);
 
-    }, [currentPagination, order, triGenre, triYear, querySearch]);
+    }, [currentPagination, order, triGenre, triYear, search]);
 
 
     // Pagination array
@@ -97,7 +95,7 @@ const AllMovies = () => {
                 <div className="allmovies__filter-input-group">
                     <div className='mf-text'>Filtrer par :</div>
                     {
-                        querySearch === '' &&
+                        search === '' &&
                         <Dropdown
                             classTag={'genres'}
                             title={'Genres'}
